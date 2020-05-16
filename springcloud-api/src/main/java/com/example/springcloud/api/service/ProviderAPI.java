@@ -1,4 +1,4 @@
-package com.example.springcloud.provider.service;
+package com.example.springcloud.api.service;
 
 
 import org.springframework.cloud.openfeign.FeignClient;
