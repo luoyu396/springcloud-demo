@@ -1,7 +1,5 @@
 package com.example.springcloud.consumer;
 
-import com.netflix.loadbalancer.IRule;
-import com.netflix.loadbalancer.RandomRule;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -29,8 +27,8 @@ public class SpringcloudConsumerApplication {
         return new RestTemplate();
     }
 
-    @Bean
+    /*@Bean
     public IRule getIRule() {
         return new RandomRule();
-    }
+    }*/
 }

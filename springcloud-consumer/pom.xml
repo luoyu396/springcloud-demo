@@ -35,6 +35,7 @@
             <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
         </dependency>
 
+
         <dependency>
             <groupId>com.example</groupId>
             <artifactId>springcloud-api</artifactId>

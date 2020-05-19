@@ -4,9 +4,7 @@ import com.example.springcloud.api.service.ProviderAPI;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
@@ -25,17 +23,13 @@ public class ConsumerController {
     //设置出现超时(默认1000ms)断路时，跳转的服务降级方法
     @HystrixCommand(fallbackMethod = "error", commandProperties = {
             //设置超时时间2000ms
-            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "20000")
+            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "2000")
     })
     @GetMapping("/testByRabbion")
     public String testGetProviderInfo() {
         return restTemplate.getForObject(providerName+"/getInfo", String.class);
     }
 
-    @HystrixCommand(fallbackMethod = "error", commandProperties = {
-            //设置超时时间2000ms
-            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "20000")
-    })
     @GetMapping("/testByFeign")
     public String testFeign() {
         return providerAPI.getInfo();

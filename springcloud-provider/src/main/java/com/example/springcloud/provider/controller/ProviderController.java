@@ -12,6 +12,7 @@ public class ProviderController {
     public String getInfo(HttpServletRequest request) {
         String res = "providerInfo";
         res += request.getLocalPort();
+        System.out.println(System.currentTimeMillis());
         return res;
     }
 }
