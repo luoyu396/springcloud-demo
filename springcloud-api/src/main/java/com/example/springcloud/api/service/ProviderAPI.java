@@ -1,12 +1,21 @@
 package com.example.springcloud.api.service;
 
 
+import com.example.springcloud.model.User;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @FeignClient(name="provider", path = "/pro")
 public interface ProviderAPI {
 
     @GetMapping("/getInfo")
-    public String getInfo();
+    String getInfo();
+
+    @PostMapping("/user")
+    String saveUser(User user);
+
+    @GetMapping("/user/{id}")
+    User getUserById(@PathVariable("id") String id);
 }

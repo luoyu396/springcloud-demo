@@ -3,8 +3,12 @@ package com.example.springcloud.consumer;
 import com.example.springcloud.api.service.ProviderAPI;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
+import com.netflix.hystrix.contrib.javanica.cache.annotation.CacheResult;
+import com.example.springcloud.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
@@ -35,7 +39,36 @@ public class ConsumerController {
         return providerAPI.getInfo();
     }
 
+    @CacheResult
+    @HystrixCommand
+    @GetMapping("/testCache")
+    public String testCache(Long id) {
+        System.out.println(id);
+        return restTemplate.getForObject(providerName+"/getInfo", String.class);
+    }
+
     private String error() {
         return "超时，服务异常";
+    }
+
+
+    @PostMapping("/testSaveUserRabbion")
+    public String testSaveUser(User user) {
+        return restTemplate.postForObject(providerName+"/user", user, User.class).toString();
+    }
+
+    @GetMapping("/testGetUserRabbion/{id}")
+    public User testGetUser(@PathVariable String id) {
+        return restTemplate.getForObject(providerName+"/user/{1}", User.class, id);
+    }
+
+    @PostMapping("/testSaveUserFeign")
+    public String testSaveUserFeign(User user) {
+        return providerAPI.saveUser(user);
+    }
+
+    @GetMapping("/testGetUserFeign/{id}")
+    public User testGetUserFeign(@PathVariable String id) {
+        return providerAPI.getUserById(id);
     }
 }
