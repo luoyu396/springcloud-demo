@@ -3,6 +3,7 @@ package com.example.springcloud.model;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * @author tanbb
@@ -10,7 +11,9 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "t_user")
-public class User {
+public class User implements Serializable {
+
+    private static final long serialVersionUID = -2168560985739053269L;
 
     @Id
     @GenericGenerator(name = "generator", strategy = "uuid.hex")

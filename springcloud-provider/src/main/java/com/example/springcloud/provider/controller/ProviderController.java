@@ -2,11 +2,9 @@ package com.example.springcloud.provider.controller;
 
 import com.example.springcloud.provider.dao.UserRepository;
 import com.example.springcloud.model.User;
+import com.example.springcloud.util.json.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Random;
@@ -28,15 +26,16 @@ public class ProviderController {
     }
 
     @PostMapping("/user")
-    public String saveUser(User user) {
+    public String saveUser(@RequestBody User user) {
         User nowUser = userRepository.save(user);
-        String res = nowUser.toString();
+        String res = JsonUtil.getBeanToJson(nowUser);
         return res;
     }
 
     @GetMapping("/user/{id}")
-    public User getUserById(@PathVariable String id) {
+    public String getUserById(@PathVariable String id) {
         User user = userRepository.getOne(id);
-        return user;
+        String res = JsonUtil.getBeanToJson(user);
+        return res;
     }
 }

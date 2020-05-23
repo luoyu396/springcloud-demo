@@ -1,6 +1,7 @@
 package com.example.springcloud.consumer;
 
 import com.example.springcloud.api.service.ProviderAPI;
+import com.example.springcloud.util.json.JsonUtil;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import com.netflix.hystrix.contrib.javanica.cache.annotation.CacheResult;
@@ -54,12 +55,13 @@ public class ConsumerController {
 
     @PostMapping("/testSaveUserRabbion")
     public String testSaveUser(User user) {
-        return restTemplate.postForObject(providerName+"/user", user, User.class).toString();
+        return restTemplate.postForObject(providerName+"/user", user, String.class);
     }
 
     @GetMapping("/testGetUserRabbion/{id}")
     public User testGetUser(@PathVariable String id) {
-        return restTemplate.getForObject(providerName+"/user/{1}", User.class, id);
+        String userStr = restTemplate.getForObject(providerName+"/user/{1}", String.class, id);
+        return JsonUtil.getJsonToBean(userStr, User.class);
     }
 
     @PostMapping("/testSaveUserFeign")
@@ -69,6 +71,7 @@ public class ConsumerController {
 
     @GetMapping("/testGetUserFeign/{id}")
     public User testGetUserFeign(@PathVariable String id) {
-        return providerAPI.getUserById(id);
+        String userStr = providerAPI.getUserById(id);
+        return JsonUtil.getJsonToBean(userStr, User.class);
     }
 }
