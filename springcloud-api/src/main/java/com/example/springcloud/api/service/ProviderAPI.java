@@ -18,5 +18,5 @@ public interface ProviderAPI {
     String saveUser(@RequestBody User user);
 
     @GetMapping("/user/{id}")
-    String getUserById(@PathVariable("id") String id);
+    User getUserById(@PathVariable("id") String id);
 }
