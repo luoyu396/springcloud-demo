@@ -3,6 +3,7 @@ package com.example.springcloud.provider.controller;
 import com.example.springcloud.provider.dao.UserRepository;
 import com.example.springcloud.model.User;
 import com.example.springcloud.util.json.JsonUtil;
+import com.netflix.hystrix.strategy.concurrency.HystrixRequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,8 +20,6 @@ public class ProviderController {
     public String getInfo(HttpServletRequest request) throws InterruptedException {
         String res = "providerInfo";
         res += request.getLocalPort();
-        int sleepTime = new Random().nextInt(3000);
-        Thread.sleep(sleepTime);
         System.out.println(System.currentTimeMillis());
         return res;
     }
@@ -33,9 +32,8 @@ public class ProviderController {
     }
 
     @GetMapping("/user/{id}")
-    public String getUserById(@PathVariable String id) {
+    public User getUserById(@PathVariable String id) {
         User user = userRepository.getOne(id);
-        String res = JsonUtil.getBeanToJson(user);
-        return res;
+        return user;
     }
 }

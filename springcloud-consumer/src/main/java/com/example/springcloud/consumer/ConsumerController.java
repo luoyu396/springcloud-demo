@@ -4,8 +4,10 @@ import com.example.springcloud.api.service.ProviderAPI;
 import com.example.springcloud.util.json.JsonUtil;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
+import com.netflix.hystrix.contrib.javanica.cache.annotation.CacheKey;
 import com.netflix.hystrix.contrib.javanica.cache.annotation.CacheResult;
 import com.example.springcloud.model.User;
+import com.netflix.hystrix.strategy.concurrency.HystrixRequestContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -58,10 +60,12 @@ public class ConsumerController {
         return restTemplate.postForObject(providerName+"/user", user, String.class);
     }
 
+    @CacheResult(cacheKeyMethod = "getUserKey")
+    @HystrixCommand
     @GetMapping("/testGetUserRabbion/{id}")
     public User testGetUser(@PathVariable String id) {
-        String userStr = restTemplate.getForObject(providerName+"/user/{1}", String.class, id);
-        return JsonUtil.getJsonToBean(userStr, User.class);
+        User user = restTemplate.getForObject(providerName+"/user/{1}", User.class, id);
+        return user;
     }
 
     @PostMapping("/testSaveUserFeign")
@@ -69,9 +73,15 @@ public class ConsumerController {
         return providerAPI.saveUser(user);
     }
 
+    @CacheResult(cacheKeyMethod = "getUserKey")
+    @HystrixCommand
     @GetMapping("/testGetUserFeign/{id}")
     public User testGetUserFeign(@PathVariable String id) {
-        String userStr = providerAPI.getUserById(id);
-        return JsonUtil.getJsonToBean(userStr, User.class);
+        User user = providerAPI.getUserById(id);
+        return user;
+    }
+
+    private String getUserKey(String id) {
+        return id;
     }
 }
