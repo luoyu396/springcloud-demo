@@ -3,10 +3,7 @@ package com.example.springcloud.api.service;
 
 import com.example.springcloud.model.User;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 @FeignClient(name="provider", path = "/pro")
 public interface ProviderAPI {
@@ -15,7 +12,7 @@ public interface ProviderAPI {
     String getInfo();
 
     @PostMapping("/user")
-    String saveUser(@RequestBody User user);
+    User saveUser(@RequestBody User user);
 
     @GetMapping("/user/{id}")
     User getUserById(@PathVariable("id") String id);

@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import java.sql.SQLOutput;
+
 @RestController
 public class ConsumerController {
 
@@ -56,12 +58,15 @@ public class ConsumerController {
 
 
     @PostMapping("/testSaveUserRabbion")
-    public String testSaveUser(User user) {
-        return restTemplate.postForObject(providerName+"/user", user, String.class);
+    public User testSaveUser(User user) {
+        return restTemplate.postForObject(providerName+"/user", user, User.class);
     }
 
     @CacheResult(cacheKeyMethod = "getUserKey")
-    @HystrixCommand
+    @HystrixCommand(fallbackMethod = "queryUserBackMethod", commandProperties = {
+            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "2000"),
+            @HystrixProperty(name = "requestCache.enabled", value = "true")
+    })
     @GetMapping("/testGetUserRabbion/{id}")
     public User testGetUser(@PathVariable String id) {
         User user = restTemplate.getForObject(providerName+"/user/{1}", User.class, id);
@@ -69,19 +74,27 @@ public class ConsumerController {
     }
 
     @PostMapping("/testSaveUserFeign")
-    public String testSaveUserFeign(User user) {
+    public User testSaveUserFeign(User user) {
         return providerAPI.saveUser(user);
     }
 
     @CacheResult(cacheKeyMethod = "getUserKey")
-    @HystrixCommand
-    @GetMapping("/testGetUserFeign/{id}")
+    @HystrixCommand(fallbackMethod = "queryUserBackMethod", commandProperties = {
+            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "2000"),
+            @HystrixProperty(name = "requestCache.enabled", value = "true")
+    })
+    @GetMapping("/testGetUserFeign/{1}")
     public User testGetUserFeign(@PathVariable String id) {
         User user = providerAPI.getUserById(id);
         return user;
     }
 
-    private String getUserKey(String id) {
+    public String getUserKey(String id) {
         return id;
+    }
+
+    public User queryUserBackMethod(String id, Throwable e) {
+        e.printStackTrace();
+        return new User();
     }
 }

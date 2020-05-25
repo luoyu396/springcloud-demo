@@ -1,6 +1,5 @@
 package com.example.springcloud.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -12,7 +11,6 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name = "t_user")
-@JsonIgnoreProperties(value = {"hibernateLazyInitializer","handler","fieldHandler"})
 public class User implements Serializable {
 
     private static final long serialVersionUID = -2168560985739053269L;
