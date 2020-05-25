@@ -25,10 +25,9 @@ public class ProviderController {
     }
 
     @PostMapping("/user")
-    public String saveUser(@RequestBody User user) {
+    public User saveUser(@RequestBody User user) {
         User nowUser = userRepository.save(user);
-        String res = JsonUtil.getBeanToJson(nowUser);
-        return res;
+        return nowUser;
     }
 
     @GetMapping("/user/{id}")
