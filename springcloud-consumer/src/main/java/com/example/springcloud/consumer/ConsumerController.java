@@ -83,7 +83,7 @@ public class ConsumerController {
             @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "2000"),
             @HystrixProperty(name = "requestCache.enabled", value = "true")
     })
-    @GetMapping("/testGetUserFeign/{1}")
+    @GetMapping("/testGetUserFeign/{id}")
     public User testGetUserFeign(@PathVariable String id) {
         User user = providerAPI.getUserById(id);
         return user;
