@@ -5,6 +5,8 @@ import com.example.springcloud.model.User;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @FeignClient(name="provider", path = "/pro")
 public interface ProviderAPI {
 
@@ -16,4 +18,7 @@ public interface ProviderAPI {
 
     @GetMapping("/user/{id}")
     User getUserById(@PathVariable("id") String id);
+
+    @GetMapping("/users/{ids}")
+    List<User> getUsersByIds(@PathVariable("ids") String ids);
 }
