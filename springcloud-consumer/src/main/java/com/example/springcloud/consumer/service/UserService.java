@@ -68,6 +68,7 @@ public class UserService {
         return user;
     }
 
+    @HystrixCommand
     //根据id查询user
     public User getUserFeign(String id) {
         User user = providerAPI.getUserById(id);
