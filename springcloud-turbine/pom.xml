@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.example</groupId>
-    <artifactId>springcloud-dashboard</artifactId>
+    <artifactId>springcloud-turbine</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>springcloud-dashboard</name>
+    <name>springcloud-turbine</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>
@@ -26,11 +26,7 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-hystrix-dashboard</artifactId>
+            <artifactId>spring-cloud-starter-netflix-turbine</artifactId>
         </dependency>
 
     </dependencies>
