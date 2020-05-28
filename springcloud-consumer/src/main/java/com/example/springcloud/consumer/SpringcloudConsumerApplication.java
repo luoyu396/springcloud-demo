@@ -1,6 +1,7 @@
 package com.example.springcloud.consumer;
 
 import com.fasterxml.jackson.databind.SerializationFeature;
+import feign.Logger;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -36,6 +37,7 @@ public class SpringcloudConsumerApplication {
         return new RandomRule();
     }*/
 
+
     @Bean
     Jackson2ObjectMapperBuilderCustomizer jackson2ObjectMapperBuilderCustomizer(){
         return new Jackson2ObjectMapperBuilderCustomizer() {
@@ -44,5 +46,10 @@ public class SpringcloudConsumerApplication {
                 jacksonObjectMapperBuilder.featuresToDisable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
             }
         };
+    }
+
+    @Bean
+    Logger.Level feignLoggerLevel() {
+        return Logger.Level.BASIC;
     }
 }
