@@ -17,7 +17,7 @@ public class SinkReceiver {
     }
 
     @StreamListener("q1")
-    public void receiver1(Object info) {
+    public void receiver1(User info) {
         logger.info("receiver1:" + info);
     }
 

@@ -29,7 +29,8 @@ public class TestSenderController {
 
     @GetMapping("/test1")
     public String test1() {
-        boolean flag = messageChannel.send(MessageBuilder.withPayload("from sinkSender1").build());
+        String userInfo = "{\"name\":\"tanbb\", \"age\":32}";
+        boolean flag = messageChannel.send(MessageBuilder.withPayload(userInfo).build());
         return "发送消息："+flag;
     }
 }
