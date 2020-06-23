@@ -15,4 +15,11 @@ public class App2 {
     public void receiver(Object info) {
         logger.info("receiver:" + info);
     }
+
+
+    /*@Bean
+    @InboundChannelAdapter(value = Processor.OUTPUT, poller = @Poller(fixedDelay = "2000"))
+    public MessageSource<String> timerMessageSource() {
+        return () -> new GenericMessage<>("{\"name\":\"tanbb\", \"age\":32}");
+    }*/
 }
